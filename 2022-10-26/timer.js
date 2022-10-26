@@ -1,13 +1,9 @@
-setTimeout(() => {
-  console.log('timer')
-}, 0)
+setTimeout(function () {
+  console.log('testing')
+}, 1000)
 
-const newPromise = new Promise((resolve, reject) => {
-  //   setTimeout(() => {
-  resolve('promise')
-  //   }, 0)
-})
+const interval = setInterval(() => {
+  console.log('interval test')
+}, 1000)
 
-newPromise.then(value => {
-  console.log(value)
-})
+clearInterval(interval)
