@@ -1,0 +1,23 @@
+[
+  {
+    "id": 3,
+    "name": "Zakia",
+    "age": 30,
+    "profession": "SSE",
+    "role": "employee"
+  },
+  {
+    "id": 1,
+    "name": "Zain",
+    "age": 90,
+    "profession": "SE",
+    "role": "admin"
+  },
+  {
+    "id": 2,
+    "name": "Aslam",
+    "age": 90,
+    "profession": "SE",
+    "role": "employee"
+  }
+]
