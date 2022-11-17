@@ -10,6 +10,18 @@ const createUser = async user => {
   }
 }
 
+const getUserById = async userId => {
+  try {
+    const user = await User.findById(userId)
+      .select('-password')
+      .lean()
+
+    return user
+  } catch (error) {
+    throw error
+  }
+}
+
 const getUserExistance = async ({ email, userName }) => {
   try {
     const existingUser = await User.findOne({
@@ -24,4 +36,17 @@ const getUserExistance = async ({ email, userName }) => {
   }
 }
 
-module.exports = { createUser, getUserExistance }
+const updateUser = async ({ userId, dataToUpdate }) => {
+  try {
+    const userUpdated = await User.findByIdAndUpdate(userId, dataToUpdate, {
+      new: true
+      // upsert: true
+    })
+
+    return userUpdated
+  } catch (error) {
+    throw error
+  }
+}
+
+module.exports = { createUser, getUserExistance, getUserById, updateUser }

@@ -28,6 +28,9 @@ const usersSchema = new mongoose.Schema(
     },
     dateOfBirth: {
       type: String
+    },
+    profilePath: {
+      type: String
     }
   },
   {

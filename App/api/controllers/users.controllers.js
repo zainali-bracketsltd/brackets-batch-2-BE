@@ -86,4 +86,50 @@ const login = async (req, res) => {
   }
 }
 
-module.exports = { signup, login }
+const updateUser = async (req, res) => {
+  try {
+    // update user here
+    const { userId } = req.params
+
+    const dataToUpdate = req.body
+
+    const updatedUser = await UserService.updateUser({ userId, dataToUpdate })
+
+    res.status(200).json({
+      message: 'SUCCESS: user updated.',
+      updatedUser
+    })
+  } catch (error) {
+    console.log(error)
+
+    res.status(500).json({ error: 'INTERNAL SERVER ERROR' })
+  }
+}
+
+const uploadProfileImage = async (req, res) => {
+  try {
+    const { fileName } = req
+
+    const { userId } = req.params
+
+    const dataToUpdate = {
+      profilePath: `uploads/${fileName}`
+    }
+
+    const updatedUser = await UserService.updateUser({
+      userId,
+      dataToUpdate
+    })
+
+    res.status(200).json({
+      message: 'SUCCESS: image uploaded',
+      updatedUser
+    })
+  } catch (error) {
+    console.log(error)
+
+    res.status(500).json({ error: 'INTERNAL SERVER ERROR' })
+  }
+}
+
+module.exports = { signup, login, updateUser, uploadProfileImage }
