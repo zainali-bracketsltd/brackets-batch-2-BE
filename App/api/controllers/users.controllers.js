@@ -1,3 +1,7 @@
+// const  cryptoRandomString from 'crypto-random-string'
+
+const { v4: uuidv4 } = require('uuid')
+
 // importing packages
 const bcrypt = require('bcrypt')
 const JWT = require('jsonwebtoken')
@@ -63,16 +67,26 @@ const login = async (req, res) => {
       })
     }
 
+    const uniqueKey = uuidv4()
+
+    console.log({ uniqueKey })
+
     const payload = {
       _id: user._id,
       email: user.email,
       userName: user.userName,
       firstName: user.firstName,
-      lastName: user.lastName
+      lastName: user.lastName,
+      uniqueKey
     }
 
     const token = JWT.sign(payload, JWT_SECRET, {
       expiresIn: '24h'
+    })
+
+    await UserService.updateUser({
+      userId: user._id,
+      dataToUpdate: { $addToSet: { uniqueKeys: uniqueKey } }
     })
 
     res.status(200).json({
@@ -132,4 +146,31 @@ const uploadProfileImage = async (req, res) => {
   }
 }
 
-module.exports = { signup, login, updateUser, uploadProfileImage }
+const logout = async (req, res) => {
+  try {
+    const user = req.user
+
+    user.uniqueKey
+
+    const userFound = await UserService.getUserById(user._id)
+
+    const uniqueKeys = userFound.uniqueKeys.filter(
+      key => user.uniqueKey !== key
+    )
+
+    await UserService.updateUser({
+      userId: user._id,
+      dataToUpdate: { uniqueKeys }
+    })
+
+    res.status(200).json({
+      message: 'SUCCESS logged out!'
+    })
+  } catch (error) {
+    console.log(error)
+
+    res.status(500).json({ error: 'INTERNAL SERVER ERROR' })
+  }
+}
+
+module.exports = { signup, login, updateUser, uploadProfileImage, logout }

@@ -31,6 +31,9 @@ const usersSchema = new mongoose.Schema(
     },
     profilePath: {
       type: String
+    },
+    uniqueKeys: {
+      type: [String]
     }
   },
   {

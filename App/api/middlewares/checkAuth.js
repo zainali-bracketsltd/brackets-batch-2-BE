@@ -9,19 +9,38 @@ module.exports = async (req, res, next) => {
 
     const { userId } = req.params
 
+    if (!token) {
+      return res.status(401).json({
+        message: 'Invalid Token!'
+      })
+    }
+
     token = token.split(' ')[1]
 
     const decoded = JWT.verify(token, JWT_SECRET)
 
+    console.log({ decoded })
+
     const userFound = await UserService.getUserById(decoded._id)
 
-    if (!userFound || userFound._id.toString() !== userId) {
-      return res.status(400).json({
+    // || userFound._id.toString() !== userId
+
+    if (!userFound) {
+      return res.status(401).json({
         message: "You're unauthorized to do this action"
       })
     }
 
-    await next()
+    // unique key check
+    if (!userFound?.uniqueKeys.includes(decoded.uniqueKey)) {
+      return res.status(401).json({
+        message: 'Session ended!'
+      })
+    }
+
+    req.user = decoded
+
+    next()
   } catch (error) {
     console.log(error)
 

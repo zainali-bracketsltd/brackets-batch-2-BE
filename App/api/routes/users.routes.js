@@ -1,6 +1,5 @@
 const express = require('express')
 const router = express.Router()
-const multer = require('multer')
 
 const upload = require('../middlewares/multer')
 
@@ -14,8 +13,11 @@ router.post('/login', UserController.login)
 
 router.patch('/:userId', checkAuth, UserController.updateUser)
 
+router.get('/logout', checkAuth, UserController.logout)
+
 router.patch(
   '/:userId/profileImage',
+  checkAuth,
   upload.single('avatar'),
   UserController.uploadProfileImage
 )
