@@ -12,9 +12,7 @@ const createUser = async user => {
 
 const getUserById = async userId => {
   try {
-    const user = await User.findById(userId)
-      .select('-password')
-      .lean()
+    const user = await User.findById(userId).select('-password').lean()
 
     return user
   } catch (error) {
@@ -49,4 +47,24 @@ const updateUser = async ({ userId, dataToUpdate }) => {
   }
 }
 
-module.exports = { createUser, getUserExistance, getUserById, updateUser }
+const verifyOTP = async ({ userId, OTP }) => {
+  try {
+    const user = await User.findOne({ _id: userId, OTP })
+      .lean()
+      .select('-password')
+
+    console.log('*** OTP verified ***', user)
+
+    return user
+  } catch (error) {
+    throw error
+  }
+}
+
+module.exports = {
+  createUser,
+  getUserExistance,
+  getUserById,
+  updateUser,
+  verifyOTP
+}

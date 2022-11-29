@@ -11,6 +11,8 @@ router.post('/signup', UserController.signup)
 
 router.post('/login', UserController.login)
 
+router.post('/verify-OTP/:userId', UserController.verifyOTP)
+
 router.patch('/:userId', checkAuth, UserController.updateUser)
 
 router.get('/logout', checkAuth, UserController.logout)

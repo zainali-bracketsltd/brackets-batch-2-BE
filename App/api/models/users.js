@@ -20,6 +20,9 @@ const usersSchema = new mongoose.Schema(
       type: String,
       unique: true
     },
+    phoneNumber: {
+      type: String
+    },
     password: {
       type: String
     },
@@ -34,6 +37,9 @@ const usersSchema = new mongoose.Schema(
     },
     uniqueKeys: {
       type: [String]
+    },
+    OTP: {
+      type: String
     }
   },
   {
