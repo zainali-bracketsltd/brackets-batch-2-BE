@@ -19,8 +19,6 @@ module.exports = async (req, res, next) => {
 
     const decoded = JWT.verify(token, JWT_SECRET)
 
-    console.log({ decoded })
-
     const userFound = await UserService.getUserById(decoded._id)
 
     // || userFound._id.toString() !== userId
@@ -38,7 +36,7 @@ module.exports = async (req, res, next) => {
       })
     }
 
-    req.user = decoded
+    req.user = userFound
 
     next()
   } catch (error) {

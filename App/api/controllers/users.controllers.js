@@ -129,7 +129,8 @@ const login = async (req, res) => {
     // })
 
     res.status(200).json({
-      message: 'Please enter the OTP'
+      message: 'Please enter the OTP',
+      updatesUser
     })
   } catch (error) {
     console.log(error)

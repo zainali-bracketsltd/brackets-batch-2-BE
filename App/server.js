@@ -9,6 +9,7 @@ const { connectDB } = require('./config/dbConn')
 // importing routers
 const UserRoutes = require('./api/routes/users.routes')
 const TwilioRoutes = require('./api/routes/twilio.routes')
+const AppointmentRoutes = require('./api/routes/appointments.routes')
 
 const app = express()
 
@@ -26,6 +27,7 @@ app.use(express.json())
 
 app.use('/users', UserRoutes)
 app.use('/twilio', TwilioRoutes)
+app.use('/appointments', AppointmentRoutes)
 
 const server = http.createServer(app)
 

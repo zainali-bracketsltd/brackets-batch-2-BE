@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const { SYSTEM_ROLES_ENUM } = require('../../config/constants')
 
 const usersSchema = new mongoose.Schema(
   {
@@ -40,6 +41,10 @@ const usersSchema = new mongoose.Schema(
     },
     OTP: {
       type: String
+    },
+    systemRole: {
+      type: String,
+      enum: SYSTEM_ROLES_ENUM
     }
   },
   {
