@@ -87,51 +87,51 @@ const login = async (req, res) => {
 
     const buff = await randomBytes(5)
 
-    const OTP = buff.toString('hex')
+    // const OTP = buff.toString('hex')
 
-    console.log(`${buff.length} bytes of random data: ${OTP}`)
+    // console.log(`${buff.length} bytes of random data: ${OTP}`)
 
-    const sentSMS = await client.messages.create({
-      body: OTP,
-      messagingServiceSid: process.env.TWILIO_MESSAGING_SERVICE_SID,
-      to: user.phoneNumber
-    })
-
-    const updatesUser = await UserService.updateUser({
-      userId: user._id,
-      dataToUpdate: { OTP }
-    })
-    // const uniqueKey = uuidv4()
-
-    // console.log({ uniqueKey })
-
-    // const payload = {
-    //   _id: user._id,
-    //   email: user.email,
-    //   userName: user.userName,
-    //   firstName: user.firstName,
-    //   lastName: user.lastName,
-    //   uniqueKey
-    // }
-
-    // const token = JWT.sign(payload, JWT_SECRET, {
-    //   expiresIn: '24h'
+    // const sentSMS = await client.messages.create({
+    //   body: OTP,
+    //   messagingServiceSid: process.env.TWILIO_MESSAGING_SERVICE_SID,
+    //   to: user.phoneNumber
     // })
 
-    // await UserService.updateUser({
+    // const updatesUser = await UserService.updateUser({
     //   userId: user._id,
-    //   dataToUpdate: { $addToSet: { uniqueKeys: uniqueKey } }
+    //   dataToUpdate: { OTP }
     // })
+    const uniqueKey = uuidv4()
 
-    // res.status(200).json({
-    //   message: 'SUCCESS: logged in.',
-    //   token
-    // })
+    console.log({ uniqueKey })
+
+    const payload = {
+      _id: user._id,
+      email: user.email,
+      userName: user.userName,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      uniqueKey
+    }
+
+    const token = JWT.sign(payload, JWT_SECRET, {
+      expiresIn: '24h'
+    })
+
+    await UserService.updateUser({
+      userId: user._id,
+      dataToUpdate: { $addToSet: { uniqueKeys: uniqueKey } }
+    })
 
     res.status(200).json({
-      message: 'Please enter the OTP',
-      updatesUser
+      message: 'SUCCESS: logged in.',
+      token
     })
+
+    // res.status(200).json({
+    //   message: 'Please enter the OTP',
+    //   updatesUser
+    // })
   } catch (error) {
     console.log(error)
 

@@ -14,19 +14,13 @@ const { SYSTEM_ROLES_ENUM } = require('../../config/constants')
 
 const appointmentSchema = require('../validations/appointment.validation-schema')
 
-router.post(
-  '/schedule',
-  checkAuth,
-  authorizeTo(SYSTEM_ROLES_ENUM.ASSISTANT),
-  validateData(appointmentSchema, 'body'),
-  AppointmentController.scheduleAppointment
-)
+const AnalyticsController = require('../controllers/analytics.controllers')
 
-router.patch(
-  '/:appointmentId',
+router.get(
+  '/per-day/:userId',
   checkAuth,
-  authorizeTo(SYSTEM_ROLES_ENUM.ASSISTANT, SYSTEM_ROLES_ENUM.MD),
-  AppointmentController.updateAppointment
+  authorizeTo(SYSTEM_ROLES_ENUM.MD, SYSTEM_ROLES_ENUM.SYS_ADMIN),
+  AnalyticsController.perDayAnalytics
 )
 
 module.exports = router

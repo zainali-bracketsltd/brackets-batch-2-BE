@@ -10,6 +10,7 @@ const { connectDB } = require('./config/dbConn')
 const UserRoutes = require('./api/routes/users.routes')
 const TwilioRoutes = require('./api/routes/twilio.routes')
 const AppointmentRoutes = require('./api/routes/appointments.routes')
+const AnalyticsRoutes = require('./api/routes/analytics.routes')
 
 const app = express()
 
@@ -28,6 +29,7 @@ app.use(express.json())
 app.use('/users', UserRoutes)
 app.use('/twilio', TwilioRoutes)
 app.use('/appointments', AppointmentRoutes)
+app.use('/analytics', AnalyticsRoutes)
 
 const server = http.createServer(app)
 

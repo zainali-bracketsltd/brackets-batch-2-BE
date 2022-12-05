@@ -1,4 +1,4 @@
-const authorizeTo = systemRoles => {
+const authorizeTo = (...systemRoles) => {
   return async (req, res, next) => {
     console.log('*** authorization ***')
 
