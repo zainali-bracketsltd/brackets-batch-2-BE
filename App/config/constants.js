@@ -4,5 +4,9 @@ module.exports = {
     MD: 'MD',
     ASSISTANT: 'ASSISTANT',
     SYS_ADMIN: 'SYS_ADMIN'
+  },
+  MESSAGE_STATUS_ENUM: {
+    SENT: 'MD',
+    RECEIVED: 'ASSISTANT'
   }
 }

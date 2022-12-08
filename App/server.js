@@ -12,6 +12,9 @@ const TwilioRoutes = require('./api/routes/twilio.routes')
 const AppointmentRoutes = require('./api/routes/appointments.routes')
 const AnalyticsRoutes = require('./api/routes/analytics.routes')
 
+const { Server } = require('socket.io')
+const { listenEvents } = require('./socket')
+
 const app = express()
 
 connectDB()
@@ -32,6 +35,14 @@ app.use('/appointments', AppointmentRoutes)
 app.use('/analytics', AnalyticsRoutes)
 
 const server = http.createServer(app)
+
+const io = new Server(server, {
+  cors: {
+    origin: '*'
+  }
+})
+
+listenEvents(io)
 
 server.listen(PORT, () => {
   console.log(`Server started at port ${PORT}`)

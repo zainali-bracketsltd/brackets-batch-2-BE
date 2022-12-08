@@ -23,4 +23,11 @@ router.get(
   AnalyticsController.perDayAnalytics
 )
 
+router.get(
+  '/per-day-categorized/:userId',
+  checkAuth,
+  authorizeTo(SYSTEM_ROLES_ENUM.MD, SYSTEM_ROLES_ENUM.SYS_ADMIN),
+  AnalyticsController.perDayCategorizedAnalytics
+)
+
 module.exports = router
